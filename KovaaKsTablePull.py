@@ -1,7 +1,7 @@
 import requests
 import csv
 
-# INPUT IN SCENARIO NAMES
+# INPUT in SCENARIO names
 SCENARIO_NAMES = [
 '1wall 6targets small',
 '1w4ts Voltaic',
