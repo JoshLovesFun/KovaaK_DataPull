@@ -1,6 +1,6 @@
 import requests
 
-# INPUT IN SCENARIO NAMES
+# INPUT IN SCENARIO Names
 SCENARIO_NAMES = [
  'Pasu Voltaic',
  'B180 Voltaic',
