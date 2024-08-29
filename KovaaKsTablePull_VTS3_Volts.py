@@ -1,6 +1,6 @@
 import requests
 
-# INPUT IN SCENARIO Names
+# Input in scenario names
 SCENARIO_NAMES = [
  'Pasu Voltaic',
  'B180 Voltaic',
@@ -22,7 +22,7 @@ SCENARIO_NAMES = [
  'Smoothbot TS Voltaic'
 ]
 
-# ARRAY SETUP
+# Array setup
 Leaderboard_ID = [0] * len(SCENARIO_NAMES)
 
 VoltsReq = [
@@ -46,7 +46,7 @@ VoltsReq = [
  [50, 70.9],
 ]
 
-# REQUEST SCENARIO PATH ONE TIME TO GET AMOUNT OF PAGES ON THE SCENARIOS PAGE
+# Request scenario path one time to get amount of pages on the scenarios page
 session = requests.Session()
 r = session.get("https://kovaaks.com/webapp-backend/scenario/popular?page=0&max=100").json()
 Max_Page = r['total']//100
