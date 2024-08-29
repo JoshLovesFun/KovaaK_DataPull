@@ -57,27 +57,36 @@ for i in range(0, len(SCENARIO_NAMES)):
     # on each leaderboard
     session = requests.Session()
     r = session.get(
-        f"https://kovaaks.com/webapp-backend/leaderboard/scores/global?leaderboardId={Leaderboard_ID[i]}&page=0&max=100").json()
+        f"https://kovaaks.com/webapp-backend/leaderboard/scores/global?"
+        f"leaderboardId={Leaderboard_ID[i]}&page=0&max=100"
+    ).json()
     Max_Page = r['total'] // 100
 
-    # ITERATE THROUGH ALL LEADERBOARD PAGES
+    # Iterate through all leaderboard pages
     for ii in range(Max_Page + 1):
         r = session.get(
-            f"https://kovaaks.com/webapp-backend/leaderboard/scores/global?leaderboardId={Leaderboard_ID[i]}&page={ii}&max=100").json()
+            f"https://kovaaks.com/webapp-backend/leaderboard/scores/global?"
+            f"leaderboardId={Leaderboard_ID[i]}&page={ii}&max=100"
+        ).json()
         print(
-            f"Leaderboard {i + 1} of {len(SCENARIO_NAMES)}. Page: {ii} of {Max_Page} data pull.")
+            f"Leaderboard {i + 1} of {len(SCENARIO_NAMES)}. "
+            f"Page: {ii} of {Max_Page} data pull."
+        )
 
-        # ITERATE THROUGH ALL "data" ROWS ON EACH PLAYLIST PAGE AND SEND DATA TO LEADERBOARD COLUMN OF RELEVANT ARRAYS
+        # Iterate through all "data" rows on each playlist page
+        # and send data to leaderboard column of relevant arrays
         for Data in r['data']:
             try:
                 Steam_Name = Data['steamAccountName']
 
-                # IF STEAM NAME (KEY) EXISTS FILL IN RELEVANT SCORE LIST FOR STEAM NAME
+                # If Steam name (key) exists, fill in relevant score list
+                # for Steam name
                 if Steam_Name in Score_Dic and Score_Dic[Steam_Name][
-                    i] is None:
+                        i] is None:
                     Score_Dic[Steam_Name][i] = Data['score']
 
-                # IF STEAM NAME (KEY) DOES NOT EXIST, CREATE NEW KEY FOR STEAM NAME AND FILL IN RELEVANT SCORE LIST FOR STEAM NAME
+                # If Steam name (key) does not exist, create new key for
+                # Steam name and fill in relevant score list for Steam name
                 elif Steam_Name not in Score_Dic:
                     Score_Dic[Steam_Name] = [None] * len(SCENARIO_NAMES)
                     Score_Dic[Steam_Name][i] = Data['score']
@@ -85,17 +94,18 @@ for i in range(0, len(SCENARIO_NAMES)):
                 pass
     session.close()
 
-# CSV DATA WRITING
+# CSV data writing
 with open('Leaderboard_Pull_For_' + CSV_File_Name + '.csv', 'w',
           encoding='utf-8', newline='') as csvfile:
     csvwriter = csv.writer(csvfile)
 
-    # WRITE IN A HEADER ROW
-    Header = ["Steam Name"] + [SCENARIO_NAMES[i] for i in
-                               range(0, len(SCENARIO_NAMES))]
+    # Write in a header row
+    Header = ["Steam Name"] + [
+        SCENARIO_NAMES[i] for i in range(len(SCENARIO_NAMES))
+    ]
     csvwriter.writerow(Header)
     for key, value in Score_Dic.items():
-        try:  # Sometimes excel write errors here, so this
+        try:  # Sometimes Excel writes errors here, so do this:
             csvwriter.writerow([key] + value)
-        except:
+        except:  # I don't know the error, so just do this for now
             pass
