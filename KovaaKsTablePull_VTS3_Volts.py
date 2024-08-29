@@ -48,30 +48,38 @@ VoltsReq = [
 
 # Request scenario path one time to get amount of pages on the scenarios page
 session = requests.Session()
-r = session.get("https://kovaaks.com/webapp-backend/scenario/popular?page=0&max=100").json()
-Max_Page = r['total']//100
+r = session.get(
+    "https://kovaaks.com/webapp-backend/scenario/popular?"
+    "page=0&max=100"
+).json()
+Max_Page = r['total'] // 100
 
-# ITERATE THROUGH ALL PLAYLIST PAGES
+# Iterate through all playlist pages
 for i in range(Max_Page + 1):
-    r = session.get(f"https://kovaaks.com/webapp-backend/scenario/popular?page={i}&max=100").json()
+    r = session.get(
+        f"https://kovaaks.com/webapp-backend/scenario/popular?"
+        f"page={i}&max=100"
+    ).json()
 
-    # ITERATE THROUGH ALL "data" ROWS ON EACH PLAYLIST PAGE
+    # Iterate through all "data" rows on each playlist page
     for Data in r['data']:
 
-        # IF SCENARIO NAME IS FOUND FILL THE CORRESPONDING INDEX IN THE LEADERBOARD ID ARRAY WITH THE "leaderboardId"
+        # If scenario name is found, fill the corresponding index in the
+        # leaderboard ID array with the "leaderboardId"
         try:
             index = SCENARIO_NAMES.index(Data['scenarioName'])
             Leaderboard_ID[index] = Data['leaderboardId']
-            # print(f"Scenario ID Found for: {SCENARIO_NAMES[index]}, {Leaderboard_ID[index]}")
+            # print(f"Scenario ID Found for: {SCENARIO_NAMES[index]}, "
+            #       f"{Leaderboard_ID[index]}")
         except ValueError:
             pass
 
-    # EXIT LOOP IF ALL LEADERBOARD IDs HAVE BEEN FOUND
+    # Exit loop if all leaderboard IDs have been found
     if all(value != 0 for value in Leaderboard_ID):
         break
 session.close()
 
-# CREATE DICTIONARY
+# Create dictionary
 Score_Dic = {}
 
 # ITERATE THROUGH EACH LEADERBOARDS
