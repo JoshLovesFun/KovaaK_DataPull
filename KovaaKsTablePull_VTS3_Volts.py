@@ -111,8 +111,8 @@ for i in range(0, len(SCENARIO_NAMES)):
                 Steam_Name = Data['steamAccountName']
 
                 # If Steam name (key) exists, fill in relevant score list
-                if Steam_Name in Score_Dic and Score_Dic[Steam_Name][
-                    i] is None:
+                if (Steam_Name in Score_Dic and
+                        Score_Dic[Steam_Name][i] is None):
                     Score = Data['score']
                     Volts = min(
                         max(Score - VoltsReq[i][0], 0) /
