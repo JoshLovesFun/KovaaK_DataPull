@@ -199,43 +199,85 @@ for key, values in Score_Dic_S.items():
     if min(RankL) >= 5:
         values[19] = "Celestial Complete"
         RankC[0] = RankC[0] + 1
-    elif max(RankL[0:3]) >= 5 and max(RankL[3:6]) >= 5 and max(RankL[6:9]) >= 5 and max(RankL[9:12]) >= 5 and max(RankL[12:15]) >= 5 and max(RankL[15:18]) >= 5:
+    elif (
+            max(RankL[0:3]) >= 5
+            and max(RankL[3:6]) >= 5
+            and max(RankL[6:9]) >= 5
+            and max(RankL[9:12]) >= 5
+            and max(RankL[12:15]) >= 5
+            and max(RankL[15:18]) >= 5
+    ):
         values[19] = "Celestial"
         RankC[1] = RankC[1] + 1
     elif min(RankL) >= 4:
         values[19] = "Astra Complete"
         RankC[2] = RankC[2] + 1
-    elif max(RankL[0:3]) >= 4 and max(RankL[3:6]) >= 4 and max(RankL[6:9]) >= 4 and max(RankL[9:12]) >= 4 and max(RankL[12:15]) >= 4 and max(RankL[15:18]) >= 4:
+    elif (
+            max(RankL[0:3]) >= 4
+            and max(RankL[3:6]) >= 4
+            and max(RankL[6:9]) >= 4
+            and max(RankL[9:12]) >= 4
+            and max(RankL[12:15]) >= 4
+            and max(RankL[15:18]) >= 4
+    ):
         values[19] = "Astra"
         RankC[3] = RankC[3] + 1
     elif min(RankL) >= 3:
         values[19] = "Nova Complete"
         RankC[4] = RankC[4] + 1
-    elif max(RankL[0:3]) >= 3 and max(RankL[3:6]) >= 3 and max(RankL[6:9]) >= 3 and max(RankL[9:12]) >= 3 and max(RankL[12:15]) >= 3 and max(RankL[15:18]) >= 3:
+    elif (
+            max(RankL[0:3]) >= 3
+            and max(RankL[3:6]) >= 3
+            and max(RankL[6:9]) >= 3
+            and max(RankL[9:12]) >= 3
+            and max(RankL[12:15]) >= 3
+            and max(RankL[15:18]) >= 3
+    ):
         values[19] = "Nova"
         RankC[5] = RankC[5] + 1
     elif min(RankL) >= 2:
         values[19] = "Grandmaster Complete"
         RankC[6] = RankC[6] + 1
-    elif max(RankL[0:3]) >= 2 and max(RankL[3:6]) >= 2 and max(RankL[6:9]) >= 2 and max(RankL[9:12]) >= 2 and max(RankL[12:15]) >= 2 and max(RankL[15:18]) >= 2:
+    elif (
+            max(RankL[0:3]) >= 2
+            and max(RankL[3:6]) >= 2
+            and max(RankL[6:9]) >= 2
+            and max(RankL[9:12]) >= 2
+            and max(RankL[12:15]) >= 2
+            and max(RankL[15:18]) >= 2
+    ):
         values[19] = "Grandmaster"
         RankC[7] = RankC[7] + 1
     elif min(RankL) >= 1:
         values[19] = "Master Complete"
         RankC[8] = RankC[8] + 1
-    elif max(RankL[0:3]) >= 1 and max(RankL[3:6]) >= 1 and max(RankL[6:9]) >= 1 and max(RankL[9:12]) >= 1 and max(RankL[12:15]) >= 1 and max(RankL[15:18]) >= 1:
+    elif (
+            max(RankL[0:3]) >= 1
+            and max(RankL[3:6]) >= 1
+            and max(RankL[6:9]) >= 1
+            and max(RankL[9:12]) >= 1
+            and max(RankL[12:15]) >= 1
+            and max(RankL[15:18]) >= 1
+    ):
         values[19] = "Master"
         RankC[9] = RankC[9] + 1
     elif min(RankL) >= 0:
         values[19] = "Jade Complete"
         RankC[10] = RankC[10] + 1
-    elif max(RankL[0:3]) >= 0 and max(RankL[3:6]) >= 0 and max(RankL[6:9]) >= 0 and max(RankL[9:12]) >= 0 and max(RankL[12:15]) >= 0 and max(RankL[15:18]) >= 0:
+    elif (
+            max(RankL[0:3]) >= 0
+            and max(RankL[3:6]) >= 0
+            and max(RankL[6:9]) >= 0
+            and max(RankL[9:12]) >= 0
+            and max(RankL[12:15]) >= 0
+            and max(RankL[15:18]) >= 0
+    ):
         values[19] = "Jade"
         RankC[11] = RankC[11] + 1
     else:
-        values[19] = "No Ranked"
+        values[19] = "Not Ranked"
 
-    # SEND HIGH SCORES TO DICTIONARY
+    # Send high scores to dictionary
     if C > 0:
         V1 = f"Celestial: {C}; "
     else:
@@ -250,7 +292,7 @@ for key, values in Score_Dic_S.items():
         V3 = ""
     values[20] = V1 + V2 + V3
 
-# RANK COUNT
+# Rank count
 print(f"Celestial Complete #:   {RankC[0]}")
 print(f"Celestial #:            {RankC[1]}")
 print(f"Astra Complete #:       {RankC[2]}")
@@ -265,13 +307,19 @@ print(f"Jade Complete #:        {RankC[10]}")
 print(f"Jade #:                 {RankC[11]}")
 print(f"")
 
-# RAW PRINT DATA CUT ANYTHING BELOW 100 VOLTS
-print(f" {'#':<5} {'Name':<30} {'Volts':<10} {'Rank':<20} {'Score #'}")
+# Raw print data and cut anything below 100 Volts
+print(f"{'#':<5} {'Name':<30} {'Volts':<10} {'Rank':<20} {'Score #'}")
 index = 1
 for key, values in Score_Dic_S.items():
     if values[18] >= 100:
         try:
-            print(f" {index:<5} {key:<30} {round(values[18],2):<10} {values[19]:<20} {values[20]}")
+            print(
+                f" {index:<5} "
+                f"{key:<30} "
+                f"{round(values[18], 2):<10} "
+                f"{values[19]:<20} "
+                f"{values[20]}"
+            )
         except:
             pass
-        index = index + 1
+        index += 1
