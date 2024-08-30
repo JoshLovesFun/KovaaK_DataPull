@@ -82,46 +82,67 @@ session.close()
 # Create dictionary
 Score_Dic = {}
 
-# ITERATE THROUGH EACH LEADERBOARDS
+# Iterate through each leaderboard
 for i in range(0, len(SCENARIO_NAMES)):
 
-    # REQUEST LEADERBOARD PATH ONE TIME TO GET AMOUNT OF PAGES ON EACH LEADERBOARD
+    # Request leaderboard path one time to get amount of pages on
+    # each leaderboard
     session = requests.Session()
-    r = session.get(f"https://kovaaks.com/webapp-backend/leaderboard/scores/global?leaderboardId={Leaderboard_ID[i]}&page=0&max=100").json()
-    #Max_Page = r['total']//100
+    r = session.get(
+        f"https://kovaaks.com/webapp-backend/leaderboard/scores/global?"
+        f"leaderboardId={Leaderboard_ID[i]}&page=0&max=100"
+    ).json()
+    # Max_Page = r['total'] // 100
     Max_Page = 50
-    # ITERATE THROUGH ALL LEADERBOARD PAGES
+    # Iterate through all leaderboard pages
     for ii in range(Max_Page + 1):
-        r = session.get(f"https://kovaaks.com/webapp-backend/leaderboard/scores/global?leaderboardId={Leaderboard_ID[i]}&page={ii}&max=100").json()
-        #print(f"Leaderboard {i + 1} of {len(SCENARIO_NAMES)}. Page: {ii} of {Max_Page} data pull.")
+        r = session.get(
+            f"https://kovaaks.com/webapp-backend/leaderboard/scores/global?"
+            f"leaderboardId={Leaderboard_ID[i]}&page={ii}&max=100"
+        ).json()
+        # print(
+        #     f"Leaderboard {i + 1} of {len(SCENARIO_NAMES)}. "
+        #     f"Page: {ii} of {Max_Page} data pull.")
 
-        # ITERATE THROUGH ALL "data" ROWS ON EACH PLAYLIST PAGE AND SEND DATA TO LEADERBOARD COLUMN OF RELEVANT ARRAYS
+        # Iterate through all "data" rows on each playlist page and
+        # send data to leaderboard column of relevant arrays
         for Data in r['data']:
             try:
                 Steam_Name = Data['steamAccountName']
 
-                # IF STEAM NAME (KEY) EXISTS FILL IN RELEVANT SCORE LIST
-                if Steam_Name in Score_Dic and Score_Dic[Steam_Name][i] is None:
+                # If Steam name (key) exists, fill in relevant score list
+                if Steam_Name in Score_Dic and Score_Dic[Steam_Name][
+                    i] is None:
                     Score = Data['score']
-                    Volts = min(max(Score-VoltsReq[i][0], 0)/max(VoltsReq[i][1]-VoltsReq[i][0], 1) * 100, 100)
+                    Volts = min(
+                        max(Score - VoltsReq[i][0], 0) /
+                        max(VoltsReq[i][1] - VoltsReq[i][0], 1) * 100, 100
+                    )
                     Score_Dic[Steam_Name][i] = Score
-                    Score_Dic[Steam_Name][18] = Volts + Score_Dic[Steam_Name][18]
+                    Score_Dic[Steam_Name][18] = Volts + Score_Dic[Steam_Name][
+                        18]
 
-                # IF STEAM NAME (KEY) DOES NOT EXIST, CREATE NEW KEY FOR STEAM NAME AND FILL IN RELEVANT SCORE LIST
+                # If Steam name (key) does not exist, create new key
+                # for Steam name and fill in relevant score list
                 elif Steam_Name not in Score_Dic:
-                    Score_Dic[Steam_Name] = [None]*(len(SCENARIO_NAMES)+3)
+                    Score_Dic[Steam_Name] = [None] * (len(SCENARIO_NAMES) + 3)
                     Score = Data['score']
-                    Volts = min(max(Score-VoltsReq[i][0], 0)/max(VoltsReq[i][1]-VoltsReq[i][0], 1) * 100, 100)
+                    Volts = min(
+                        max(Score - VoltsReq[i][0], 0) /
+                        max(VoltsReq[i][1] - VoltsReq[i][0], 1) * 100, 100
+                    )
                     Score_Dic[Steam_Name][i] = Score
                     Score_Dic[Steam_Name][18] = Volts
             except KeyError:
                 pass
     session.close()
 
-# SORT DICTIONARY
-Score_Dic_S = dict(sorted(Score_Dic.items(), key=lambda item: item[1][18], reverse=True))
+# Sort dictionary
+Score_Dic_S = dict(
+    sorted(Score_Dic.items(), key=lambda item: item[1][18], reverse=True)
+)
 
-# BRING IN RANK DATA ARRAY
+# Bring in rank data array
 RankReq = [
  [68, 76, 85, 95, 105, 110.2],
  [78, 88, 98, 108, 115, 123],
@@ -143,35 +164,38 @@ RankReq = [
  [50, 55, 60, 65, 70, 70.4],
 ]
 
-# CALCULATE RANK
+# Calculate rank
 RankC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 for key, values in Score_Dic_S.items():
     C = 0
     A = 0
     N = 0
-    RankL = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+    RankL = [
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1
+    ]
 
-    # ITERATE THOUGH SCENARIOS
-    for i in range(0, len(SCENARIO_NAMES)):
+    # Iterate through scenarios
+    for i in range(len(SCENARIO_NAMES)):
         try:
             if values[i] >= RankReq[i][5]:
-                C = C+1
+                C += 1
             elif values[i] >= RankReq[i][4]:
-                A = A+1
+                A += 1
             elif values[i] >= RankReq[i][3]:
-                N = N+1
+                N += 1
         except:
             pass
 
-        # ITERATE THROUGH RANKS
-        for ii in range(0, 6):
+        # Iterate through ranks
+        for ii in range(6):
             try:
                 if values[i] >= RankReq[i][ii]:
                     RankL[i] = ii
             except:
                 pass
 
-    # CALCULATE RANKS
+    # Calculate ranks
     if min(RankL) >= 5:
         values[19] = "Celestial Complete"
         RankC[0] = RankC[0] + 1
