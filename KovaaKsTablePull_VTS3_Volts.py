@@ -308,14 +308,14 @@ print(f"Jade #:                 {RankC[11]}")
 print(f"")
 
 # Raw print data and cut anything below 100 Volts
-print(f"{'#':<5} {'Name':<30} {'Volts':<10} {'Rank':<20} {'Score #'}")
+print(f"{'#':<5} {'Name':<40} {'Volts':<10} {'Rank':<20} {'Score #'}")
 index = 1
 for key, values in Score_Dic_S.items():
     if values[18] >= 100:
         try:
             print(
-                f" {index:<5} "
-                f"{key:<30} "
+                f"{index:<5} "
+                f"{key:<40} "
                 f"{round(values[18], 2):<10} "
                 f"{values[19]:<20} "
                 f"{values[20]}"
